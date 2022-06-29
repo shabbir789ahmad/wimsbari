@@ -1,0 +1,206 @@
+
+.printer *{
+    display: none;
+   
+  }
+@media print{
+  body *{
+    margin-top: 0%;
+    padding-top: 0%;
+    height: 0%;
+    display: none;
+  }
+  .printer *{
+    display: flex;
+   flex-direction: column;
+
+  }
+  .bari_challan_image{
+    display: flex; 
+    flex-direction:row; 
+      width: 100%;
+  }
+  .bari_challan_image img{
+    width: 45rem;
+  }
+  .bari_challan_image h3{
+     text-align: center;
+     font-weight: bold;
+     margin-left: 4%;
+     background-color: #000;
+     color: #fff;
+     font-size: 3.5vw;
+  }
+  .name_date,.challan_detail,.footer_detail{
+    display:flex; justify-content:space-between; flex-direction: row; 
+    width: 100%;
+    margin-top: 1%;
+  }
+  .footer_detail1{
+    border: 2px solid #000;
+  }
+.heades{
+    display:flex;
+    flex-direction: row; 
+    width: 100%;
+   padding: .5%;
+  }
+  .name_date p{
+     font-size: 3vw; display:flex; flex-direction:row; margin-left: auto;
+     margin-right: 2%;
+  }
+
+  .details_challan{
+    display:flex; justify-content:space-between; flex-direction: row; 
+    width: 100%;
+   margin-top: 2%;
+   font-size: 1.9vw;
+  }
+
+  
+
+  /*row table*/
+  .table_new ,.table_invoice1{
+    display:flex;flex-direction: row; 
+     width: 100%; border:2px solid #000; 
+     align-items: center; font-size: 2.5vw;
+      font-weight:700;
+      margin-top: 4%;
+      padding: 1%;
+  }
+
+  .table_new2,.table_invoice2{
+    display:flex;flex-direction: column; 
+     width: 100%;  
+      border-right:2px solid #000;
+      border-left:2px solid #000;
+      border-bottom:2px solid #000;
+     min-height: 42rem;
+
+  }
+   .table_new3 , .table_new4,.table_invoice3{
+    display:flex;flex-direction: row; 
+     width: 100%;  
+     align-items: center; font-size: 2.3vw;
+      font-weight:700;
+
+     
+  }
+  .table_new3 ,.table_invoice{
+  
+  }
+
+.table_news,.table_invoice{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/*print vertical lines*/
+.hr ,.hr2,.hr_invoice1,.hr_invoice2,.hr_invoice3,.hr_invoice4,.hr_invoice5{
+  position: absolute;
+  top: 6%;
+  z-index: 999;
+  border: .1px solid #000 !important;
+}
+.hr,.hr_invoice1{
+    left: 9%;
+    height: 94%;
+}
+.hr2{
+    right: 11%;
+    height: 94%;
+}
+.hr_invoice1,.hr_invoice2,.hr_invoice3,.hr_invoice4,.hr_invoice5{
+    height: 90%;
+    top: 10% !important;
+}
+.hr_invoice2{
+    right: 15.5%;
+}
+.hr_invoice3{
+    right: 25.4%;
+}
+.hr_invoice4{
+    right: 35%;
+}
+.hr_invoice5{
+    right: 50%;
+}
+/*invoice csss*/
+ .table_invoice2{
+  min-height: 20rem !important;
+ }
+ .payment_data{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  border-left: 2px solid #000;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+ }
+ .payment_data span{
+  font-size: 2vw;
+  font-weight: 700;
+  margin: 1%;
+ }
+
+}
+
+/*snack bar toast message*/ 
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #238AA9;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  right: 40%;
+  top: 30px;
+  font-size: 17px;
+}
+
+
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {top: 0; opacity: 0;} 
+  to {top: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {top: 0; opacity: 0;}
+  to {top: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {top: 30px; opacity: 1;} 
+  to {top: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {top: 30px; opacity: 1;}
+  to {top: 0; opacity: 0;}
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
