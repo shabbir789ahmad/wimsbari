@@ -4,6 +4,7 @@ namespace App\Http\Traits;
 use App\Models\Payment;
 use App\Models\BariOrder;
 use App\Models\Product;
+use App\Models\Customer;
 use App\Models\ProductStock;
 
 trait BariRecieptTraits{
@@ -14,7 +15,24 @@ trait BariRecieptTraits{
     **/
    function paymentOrders($reciept)
    {
-        return Payment::where('reciept_type',$reciept)->get();
+    $request=app('request');
+       $query=Customer::
+       join('payments','customers.id','=','payments.customer_id')
+       ->join('bari_orders','payments.id','=','bari_orders.payment_id')
+        ->select('customers.customer_name','payments.*','bari_orders.category_id')
+          ->where('reciept_type',$reciept);
+          
+          if($request->by_customer !== null)
+          {
+           $query=$query->where('customer_id',$request->by_customer);
+          }
+          if($request->by_category_id !== null)
+          {
+           $query=$query->where('bari_orders.category_id',$request->by_category_id);
+          }
+
+         return  $orders=$query->paginate(50);
+           
    }
    
 

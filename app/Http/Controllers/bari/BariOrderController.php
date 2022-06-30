@@ -7,15 +7,37 @@ use Illuminate\Http\Request;
 use DB,Auth;
 use App\Models\Product;
 use App\Models\Payment;
+use App\Models\Quotation;
 use App\Models\BariOrder;
 use App\Models\ProductStock;
 use App\Models\BariComponent;
+use App\Http\Traits\BariOrderTrait;
 class BariOrderController extends Controller
 {
+   use BariOrderTrait;
+    
     public function order(Request $request)
     {
-      $data=branch_id($request->all());
-     
+      
+       $data=branch_id($request->all());
+       //from bariordertrait
+        $sr_number=$this->payments();
+        if($request->reciept_type=='quotation')
+        {  
+           //from bariordertrait
+           $sr_number=$this->srNumber($sr_number,'QT');
+        
+        }elseif($request->reciept_type=='challan')
+        { 
+           //from bariordertrait
+            $sr_number=$this->srNumber($sr_number,'CH');
+         }elseif($request->reciept_type=='invoice')
+         { 
+            //from bariordertrait
+            $sr_number=$this->srNumber($sr_number,'IN');
+         }
+        
+       $data=array_merge($data,['sr_number'=>$sr_number]);
       DB::transaction(function() use($request,$data)
       { 
         $payment=Payment::create($data);
@@ -32,47 +54,39 @@ class BariOrderController extends Controller
         session()->forget('bcart');
         session()->forget('bccart');
       });
+           //from bariordertrait
+           $payment=$this->payments();
 
-           $payment=Payment::Branch()
-                    ->latest()
-                    ->select('id','paying_amount','discount','tax')
-                    ->first();
-            $cart_data=BariOrder::
-                   where('payment_id',$payment['id'])
-                  ->latest()
-                  ->whereNull('component')
-                  ->get();
-                   $cart_data2=BariOrder::
-                   where('payment_id',$payment['id'])
-                  ->latest()
-                  ->whereNotNull('component')
-                  ->get();
+            //from bariordertrait
+            $orders=$this->productOrder($payment);
+           
+            $cart_data=$orders['cart_data'];
+            $cart_data2=$orders['cart_data2'];
+
              $product=[];
               foreach($cart_data as $data)
               {
-                
-                    $datas=json_decode($data['properties'], true);
+                $datas=json_decode($data['properties'], true);
    
-                   foreach($datas as $d)
-                   {
-                      $product[]=Product::Branch()
+                foreach($datas as $d)
+                {
+                     $product[]=Product::Branch()
                            ->where('id',$d['product_id'])
                            ->select('product_name','id')
                            ->get();
-
-                   }
+                }
                }
               
               $product = array_unique($product);
               
-             
-
-            $success='Payment Completed';
-            $session_data=['success'=>$success,'cart_data'=>$cart_data,'payment'=>$payment,'product'=>$product,'cart_data2'=>$cart_data2];
+              $success='Payment Completed';
+              $session_data=['success'=>$success,'cart_data'=>$cart_data,'payment'=>$payment,'product'=>$product,'cart_data2'=>$cart_data2];
              return response()->json($session_data);
-
-
     }
+
+   
+
+    
 
     function addToOrder($payment)
     {
@@ -96,8 +110,7 @@ class BariOrderController extends Controller
         {
             
             $properties[]=['product_id'=>$cart['id']];
-       
-            $order= BariOrder::create([
+         $data= BariOrder::create([
 
                 'description'=>$cart['name'],
                 'size'=>preg_replace('/[^0-9]/', '', $cart['name']),
@@ -105,12 +118,18 @@ class BariOrderController extends Controller
                 'price'=>$cart['price'],
                 'shelf_quentity'=>$cart['quantity'],
                 'component'=>$cart['id'],
+                'product_quality'=>$cart['qualities'],
+                'category_id'=>$cart['category_id'],
                 'payment_id' =>$payment['id'],
               ]);
-
+             
+          
+            // this function manage stock for component
             $this->manageStock2($cart);
         }
     }
+
+    
    
    function bariOrder($components,$details,$payment)
    {
@@ -131,25 +150,27 @@ class BariOrderController extends Controller
    {
 
      $request=app('request');
-
-      $order= BariOrder::create([
+     BariOrder::create([
 
            'description'=>$details['name'],
            'size'=>$details['size'],
             'properties'=>json_encode($properties),
            'price'=>$details['price'],
            'shelf_quentity'=>$details['quantity'],
+           'category_id'=>$details['category_id'],
            'component'=>null,
            'payment_id' =>$payment['id'],
         ]);
+       
    }
 
 
-    function manageStock($components,$details){
 
-       foreach($components as $component)
-        {
-            // get product id with this function from product mofdel
+  function manageStock($components,$details)
+  {
+     foreach($components as $component)
+     {
+        // get product id with this function from product mofdel
          $product=Product::productId($component['product_id']);
          // get stock data with this function from ProductStock Model
          $stock=ProductStock::stockManage($product['id']);
@@ -159,31 +180,22 @@ class BariOrderController extends Controller
          $stock->stock_sold=$stock->stock_sold+($component['bri_quentity']*$details['quantity']);
          $stock->save();
        
-
-        }
+      }
     }
 
 
-    function manageStock2($component){
+  //this function mange stock for product component
+    function manageStock2($component)
+    {
+       // from product model
+       $product=Product::productId($component['id']);
+        //from productstock model 
+       $stock=ProductStock::stockManage($product['id']);
 
-       
-         $product=Product::
-         join('product_brands','products.id','=','product_brands.product_id')
-         ->select('product_brands.id')
-         ->where('products.id',$component['id'])
-         ->first();
-
-         $stock=ProductStock::
-         where('pbrand_id',$product['id'])
-         ->first();
-
-         $stock->stock=$stock->stock-$component['quantity'];
-         $stock->stock_sold=$stock->stock_sold+$component['quantity'];
-         $stock->save();
-       
-
-        
-    }
+       $stock->stock=$stock->stock-$component['quantity'];
+       $stock->stock_sold=$stock->stock_sold+$component['quantity'];
+       $stock->save();
+     }
 
 
 }

@@ -25,7 +25,7 @@
           <div class="col-md-6">
             <label for="customer" class="font-weight-bold">Customer Name</label>
            <input type="text" name="customer_name" id="customer_name" class="form-control" required>
-           <span>@error('customer_name') {{$message}} @enderror</span>
+           
           </div>
         </div>
         <div class="row mt-2">
@@ -69,7 +69,7 @@
         
         <button type="submit" class="btn btn-primary create_customer">Save </button>
       </div>
-
+  
     </div>
   </div>
 </div>

@@ -1,6 +1,18 @@
 @extends('panel.master')
 @section('content')
 
+<h3>Invoices</h3>
+<div class="row">
+ <div class="col-4">
+    <x-same-code  :categories="$categories" />
+ </div>
+ <div class="col-4">
+    <x-same-code2  :brands="$brands" />
+ </div>
+ <div class="col-4">
+    <x-customer.allcustomerscomponent :customers="$customers" />
+ </div>
+</div>
 
 <div class="row">
 	<div class="col-12">
@@ -69,7 +81,7 @@
 
 
 
-
+<x-filterformcomponent />
 
 
 @endsection
@@ -77,9 +89,7 @@
 
 @parent
 
-<script type="text/javascript">
+ <script src="{{asset('js/recieptfilter.js')}}"></script>
 
 
-
-</script>
 @endsection

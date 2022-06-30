@@ -12,8 +12,14 @@ class CustomerController extends Controller
    use ImageTrait;
     public function index()
     {
-        $customers=Customer::all();
+        $customers=Customer::customers();
          return view('panel.customer.index',compact('customers'));
+    }
+
+    public function ajaxCustomer()
+    {
+        $customers=Customer::customers();
+         return response()->json($customers);
     }
 
       /**

@@ -18,4 +18,14 @@ class Customer extends Model
      'customer_phone',
      'branch_id',
     ];
+
+    public function getCustomerNameAttribute($value)
+    {
+        return ucfirst($value);
+    }
+
+    static function customers()
+    {
+        return Customer::latest()->get();
+    }
 }

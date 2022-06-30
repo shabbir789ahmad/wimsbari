@@ -73,7 +73,7 @@
 						</div>
 						
 						
-								<input name="sell_by[]" type="hidden" value="piece" />
+						<input name="sell_by[]" type="hidden" value="piece" />
                            <div class="col-12 col-md-6">
 							<div class="form-group">
 								<label for="">Price Per Component <span class="text-danger">*</span>
@@ -109,22 +109,28 @@
 
 					</div>
 					<div class="row">
-					  <div class="col-md-4">
+					  <div class="col-md-3">
                        <div class="form-group">
 						 <label for="">Product Color</label>
 						 <x-forms.input name="product_color"></x-forms.input>
 						</div>
 					  </div>
-                      <div class="col-md-4">
+                      <div class="col-md-3">
                        <div class="form-group">
 						 <label for="">Product Size</label>
 						 <x-forms.input name="product_size"></x-forms.input>
 						</div>
 					  </div>
-					  <div class="col-md-4">
+					  <div class="col-md-3">
                        <div class="form-group">
 						 <label for="">Product Modal</label>
 						 <x-forms.input name="prodcut_modal"></x-forms.input>
+						</div>
+					  </div>
+					  <div class="col-md-3">
+                       <div class="form-group">
+						 <label for="">Product Thickness</label>
+						 <x-forms.input name="prodcut_thickness"></x-forms.input>
 						</div>
 					  </div>
 					</div>

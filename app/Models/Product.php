@@ -29,7 +29,6 @@ class Product extends Model {
         'where_house_id',
         'admin_id',
         'product_qualities',
-       
         'pack_quentity',
 
     ];
@@ -71,7 +70,7 @@ class Product extends Model {
        
        
         $query = DB::table('products')
-            ->select('categories.category_name', 'sub_categories.sub_category_name', 'products.product_name','products.product_image','products.sub_category_id','products.id')
+            ->select('categories.category_name', 'sub_categories.sub_category_name', 'products.product_name','products.product_image','products.sub_category_id','products.id','products.product_qualities')
             
             ->join('categories', 'categories.id', 'products.category_id')
             ->join('sub_categories', 'sub_categories.id', 'products.sub_category_id');

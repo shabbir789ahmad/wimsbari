@@ -12,7 +12,7 @@
         <p style=" font-size: 5vw; font-weight: 900; text-decoration:underline" id="receipt_name">Quotation</p>
       </div>
       <div class="" style="display:flex; justify-content:space-between; flex-direction: row;  margin: 0%; padding: 0%;">
-        <p style=" font-size: 4vw; display:flex; flex-direction:row; ;"><strong>To:</strong> <span id="invoice_client_name">Shabbir ahmad</span>  </p>
+        <p style=" font-size: 4vw; display:flex; flex-direction:row; ;"><strong>To:</strong> <span id="customer_name_print">Shabbir ahmad</span>  </p>
       </div>
 
      <div class="table_invoice">
@@ -39,9 +39,7 @@
                    <div style="width:10%;">14,500/-</div>
                    <div style="width:15%; ">725,000/-</div>
         </div> 
-       
-       
-      </div>
+       </div>
       <hr class="hr_invoice2">
       <hr class="hr_invoice3">
       <hr class="hr_invoice4">

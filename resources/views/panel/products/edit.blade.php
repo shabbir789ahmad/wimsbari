@@ -112,6 +112,35 @@
 						</div>
 
 					</div>
+					@if($product['product_qualities'])
+					@php $qulaities=json_decode($product['product_qualities']) @endphp
+                    <div class="row">
+					  <div class="col-md-3">
+                       <div class="form-group">
+						 <label for="">Product Color</label>
+						 <x-forms.input name="product_color" value="{{$qulaities->color}}"></x-forms.input>
+						</div>
+					  </div>
+                      <div class="col-md-3">
+                       <div class="form-group">
+						 <label for="">Product Size</label>
+						 <x-forms.input name="product_size" value="{{$qulaities->size}}"></x-forms.input>
+						</div>
+					  </div>
+					  <div class="col-md-3">
+                       <div class="form-group">
+						 <label for="">Product Modal</label>
+						 <x-forms.input name="prodcut_modal" value="{{$qulaities->modal}}"></x-forms.input>
+						</div>
+					  </div>
+					  <div class="col-md-3">
+                       <div class="form-group">
+						 <label for="">Product Thickness</label>
+						 <x-forms.input name="prodcut_thickness" value="{{$qulaities->thickness}}"></x-forms.input>
+						</div>
+					  </div>
+					</div>
+					@endif
 					<div class="row">
 						<div class="col-12">
 							<button type="button" id="edit_button_submit" class="btn btn-primary">

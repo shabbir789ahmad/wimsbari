@@ -25,11 +25,14 @@
              </div>
              <div class="col-md-6 ">
                <label class="font-weight-bold">Customer Name<span class="text-danger">*</span></label>
-               <div class="d-flex">
-               <select class="form-control" name="customer_id" id="customer_id">
-                </select>
-                <i class="fas fa-plus-square text-info fa-2x text-center px-2" data-toggle="modal" data-target="#customerModal"></i>
-              </div>
+                <input list="browsers" name="browser" id="browser">
+  <datalist id="browsers">
+    <option value="Edge">
+    <option value="Firefox">
+    <option value="Chrome">
+    <option value="Opera">
+    <option value="Safari">
+  </datalist>
              </div>
            </div>
            <div class="row mt-2">

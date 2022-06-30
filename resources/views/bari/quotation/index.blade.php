@@ -71,7 +71,7 @@
 
 		 <td class=" d-flex ">
 		 
-			<a href="{{ route('bari.quotation.edit', ['id' => $product->id]) }}" type="submit" class="btn btn-md btn-info mt-4">
+			<a href="" type="submit" class="btn btn-md btn-info mt-4">
 			Edit
 			</a>
 			
@@ -95,7 +95,7 @@
 				
 				 
 				@else
-				<x-alert.resource-empty resource="products" new="products.create-bulk"></x-alert.resource-empty>
+				<x-alert.resource-empty resource="products" new=""></x-alert.resource-empty>
 				@endif			
 			</div>
 		</form>

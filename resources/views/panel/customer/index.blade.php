@@ -5,7 +5,7 @@
 	<div class="col-12">
 		<div class="form-group">
 			<div class="btn-group" role="group" aria-label="Basic example">
-				<a href="#"  id="customer" class="btn btn-primary">
+				<a href="#"  data-id="1" id="customer" class="btn btn-primary">
 					Add Customer
 				</a>
 				
@@ -86,14 +86,4 @@
 
 <x-customer.customercomponent  />
 
-@endsection
-@section('script')
-<script type="text/javascript">
-	$('#customer').click(function(){
-     
-		$('#customerModal').modal('show');
-		
-	})
-</script>
-@parent
 @endsection

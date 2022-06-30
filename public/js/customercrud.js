@@ -1,12 +1,17 @@
 $(document).ready(function(){
 
+$(document).on('click','#customer,#customer_pos',function(){
+     
+        $('#customerModal').modal('show');
+        let id=$(this).data('id');
+        $('.create_customer').attr('data-id',id);
+    });
+
  $(document).on('click','.create_customer',function()
  {  
-   // print customer name
-    let customer_name=$('#customer_name').val();
-    let reciept_type=$('#reciept_type').val();
-    $('#customer_name_print').text(customer_name)
-          alert('sd')
+   
+    let type=$(this).data('id');
+        
     $.ajax({
              url : "/customer",
              type : 'POST',
@@ -24,26 +29,39 @@ $(document).ready(function(){
                  
             }).done(function(res)
             {
-               let type=1;//if type is 1 than apend response to panel view  
+               //if type is 1 than apend response to panel view  
                customer(type)
-               $('#form_id').trigger("reset");
-
+                $('#customerModal').modal('hide');
+                
+              if(type===1)
+              {
+              location.reload()
+              }
             }).fail(function(res){
-                  console.log('fail to ad customer')
+                  alert('fail to add customer')
             });
   });
 
+ 
 
+
+$(document).on('click','#bari_quatation,#bari_invoice,#bari_payment',function(){
+
+    let type=2;
+    customer(type)
+
+});
   //get all customer 
   function customer(type)
   {
     $.ajax({
-              url: baseURL + 'pos/customer',
+              url:'/ajax/customer',
           })
            .done(function(res) 
            {
+            
               $('#all_customer').empty();
-              $('#customer_id').empty();
+              $('#customers').empty();
               $.each(res, function(index, val) 
               {
 
@@ -76,11 +94,12 @@ $(document).ready(function(){
                        </tr>
                         
                     `);
-                }else
+                }else if(type===2)
                 {
-                    $('#customer_id').append(`
+                  
+                    $('#customers').append(`
                         
-                     <option value="${ val.id }">${ val.customer_name }</option>
+                     <option value="${ val.id }     ${ val.customer_name }">
                         
                     `);
                 }

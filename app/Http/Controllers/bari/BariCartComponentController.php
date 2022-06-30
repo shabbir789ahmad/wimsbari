@@ -22,6 +22,7 @@ class BariCartComponentController extends Controller
       
         $id=$request->id;
         $products= $this->productHelper->product($id);
+        
         $stock=$this->productHelper->stock($products['id']);
         
       if($stock == null )
@@ -53,7 +54,9 @@ class BariCartComponentController extends Controller
                      "name" => $products['product_name'],
                      "price" => $stock['product_price_piece'],
                      "sub_total" => $stock['product_price_piece'],
+                     "category_id" => $products['category_id'],
                      "quantity" => $request->quentity,
+                     "qualities" => $products['product_qualities'],
                      
 
             ];

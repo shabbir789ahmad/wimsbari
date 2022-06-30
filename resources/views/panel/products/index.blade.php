@@ -64,7 +64,7 @@
             <tr>
 								
 								<td class="p-0 col-1">
-									<img src="{{ asset('uploads/products/' . $product->product_image) }}"  alt="product image" class="border border-danger" width="80px" height="70px"  loading="lazy">
+									<img src="{{ asset('uploads/products/' . $product->product_image) }}"  alt="product image" class="border border-danger" width="80px" height="100%"  loading="lazy">
 								</td>
 								<td >
 									<select class="form-control brands">
@@ -78,10 +78,12 @@
 									  @endforeach
 									</select>
 								</td>
-								<td >
-									
-										{{ $product->product_name }}
-									
+								<td >{{ $product->product_name }}
+									@if($product->product_qualities)
+									@php $qualitiy=json_decode( $product->product_qualities); @endphp
+									{{$qualitiy->size}}
+									<p><span class="font-weight-bold">Color:</span> {{$qualitiy->color}},<span class="font-weight-bold">Modal:</span>  {{$qualitiy->modal}},<span class="font-weight-bold">Thickness:</span>{{$qualitiy->thickness}}</p>
+									@endif
 								</td>
 									
 							

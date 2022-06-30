@@ -50,6 +50,7 @@
     <div class="col-sm-3 col-md-3">
      <button class="btn btn-xl order2 fg2 font2" data-id="2" id="brand" >Brand</button>
     </div>
+
     <!-- 
      click to create quotation
      js code in quotation.js file
@@ -83,24 +84,50 @@
                 @foreach($brand as $br)
                 <?php $bran.=$br[0];  ?>
                 @endforeach
-                {{$bran}}<span class="float-right">Rs {{$product['rate']}}</span></button>
-              @php  $i++; @endphp
+                {{$bran}}<span class="float-right">Rs {{$product['rate']}}</span>
+              </button>
+              
               <button class="btn show_component  single_brand text-light text-left mt-2  p-2 mb-0" data-id="{{$product['id']}}" style="width:3rem;background-color:#5CB85C" data-toggle="collapse" data-target="#collapseExample{{$i}}" aria-expanded="false" data-c="{{$i}}" data-id="{{$product['id']}}"  aria-controls="collapseExample">Add</button>
             </div>
-                      <div class="w col-md-2 px-0 "> 
-                      <div class="float-right mt-2">
-                          <button class="mt-0 btn btn-md mr-2 text-light mb-1 ab"  style="background:#5CB85C">R</button>
-                    
-                          
+            
+            <div class="w col-md-2 px-0 "> 
+              <div class="float-right mt-2">
+                 <button class="mt-0 btn btn-md mr-2 text-light mb-1 ab"  style="background:#5CB85C">R</button>
+              </div>
+             <input type="hidden"  id="wholesale_one" value="${input_value}" >
+            </div>
+           </div>
+          </a>
                         
-                          </div>
-                           <input type="hidden"  id="wholesale_one" value="${input_value}" ></div></div></a>
-                        
-      <div class="collapse component_apend" id="collapseExample{{$i}}" data-id="{{$i}}">
-     
-      </div>
+          <div class="collapse component_apend" id="collapseExample{{$i}}" data-id="{{$i}}"> </div>
+       @endforeach
+       <!-- main product end here -->
+       <!-- component start here -->
+           @foreach($components as $component)
+           <a href="#" class="p customer-tr2 border-bottom" tabIndex="-1">
+            <div class="row r">
+              <div class="col-md-1 px-0">
+                <img src="{{ asset('uploads/brand/' . $product->product_image) }}" class="img-thumbnail mr-1 card-img" alt="..."  loading="lazy">
+              </div>
+              
+               <div class="col-md-4 product-font font px-0 ">
+                @if($component->product_qualities)
+                @php $qualitiy=json_decode($component->product_qualities); @endphp
+                <h6>{{$component->product_name}}{{$qualitiy->size}}</h6>
+                <p>Color: {{$qualitiy->color}}, modal: {{$qualitiy->modal}}, Thickness: {{$qualitiy->thickness}}</p>
+               @else
+               <h6>{{$component->product_name}}</h6>
+               @endif
+                       </div> 
+                       <div class=" col-md-5 brn text-center p-0 o " >
+                        <button class="btn  single_brand text-light text-left mt-2 pos-product p-2 mb-0" data-id="{{$component->id}}" style="width:15rem;background-color:#17A2B8">{{$component->product_name}}<span class="float-right"></span></button>
 
-
+                       </div>
+                       <div class="w col-md-2 px-0 "> 
+                       <div class="float-right mt-2">
+                         <button class="mt-0 btn btn-md mr-2 text-light mb-1 ab" style="background:#5CB85C">R</button>
+                        </div>
+                       </div></div></a>
            @endforeach
        </div>
       </div>
@@ -434,7 +461,7 @@
 <x-expense.createexpensecomponent  />
 <x-frate-component  />
 <x-payable-amount-component  />
-
+<x-customer.customercomponent  />
 @endsection
 @section('script')
 @parent

@@ -3,10 +3,11 @@ $(document).ready(function(){
  $(document).on('click','#print2,.print2',function()
  {  
    // print customer name
-    let customer_name=$('#customer_name').val();
+     let customer_id=$('#customer_id').val();
     let reciept_type=$('#reciept_type').val();
-    $('#customer_name_print').text(customer_name)
-          
+    $('#customer_name_print').text(customer_id.substr(2))
+      
+   
     $.ajax({
              url : "/order/bari/printer",
              type : 'POST',
@@ -14,7 +15,7 @@ $(document).ready(function(){
              data:{
                      "_token": $('#csrf-token')[0].content ,
                      biller_name : $('#biller_name').val(),
-                     customer_name : $('#customer_name').val(),
+                     customer_id : customer_id.replace(/\D/g, ''),
                      paying_by : $('#paying_by').val(),
                      paying_amount : $('#paying_amount').val(),
                      payable_amount : $('#payable_amount').val(),
@@ -40,11 +41,12 @@ $(document).ready(function(){
                {
                let  i=challanReciept(data,payment,product)
 
-                  if(data2.length > 0){apendextra(data2,i)}
+                  if(data2.length > 0){apendextra(data2,i,payment)}
                }else if(reciept_type=='invoice')
                {
                 $('#receipt_name').text('ESTIMATE INVOICE');
                 InvoiceReciept(data,payment,product)
+
                 if(data2.length > 0){apendextra2(data2)}
 
                }else if(reciept_type=='quotation')
@@ -74,7 +76,7 @@ $(document).ready(function(){
  function InvoiceReciept(data,payment)
  {
     $('#bari_invoice_recipt').empty()
-    $('.invoice_id').text(payment.id)
+    $('#invoice_id').text(payment.sr_number)
     $.each(data,function(key,item)
     {
       let apend2=` 
@@ -135,8 +137,7 @@ $(document).ready(function(){
    
     $('#bari_recipt').empty()
     $.each(data,function(key,item){
-    $('.invoice_id').text(item.payment_id)
-                
+    $('#sr_number2').text(payment.sr_number)
     let apend2=` 
 
                 <div class="table_new3" >
@@ -196,7 +197,6 @@ $(document).ready(function(){
 //this is used for product compoent detail
  function apendComponent(quentity,product,component,payment_id)
  {  
- 
     $.each(component,function(key1,pro2){
      $.each(product,function(key2,pro){
        if(pro2.product_id === pro[0].id )
@@ -218,8 +218,10 @@ $(document).ready(function(){
 }
 
 //this function append extra component to table
- function apendextra(data,i)
+ function apendextra(data,i,payment)
  {  
+
+     $('#sr_number2').text(payment.sr_number)
     let apend2=` 
              <div class="table_new4" style="margin-top:5%">
                 <div style="width:10%; text-align: center;"></div>
@@ -230,39 +232,82 @@ $(document).ready(function(){
     
     $.each(data,function(key3,pro2)
     {
-       let apend2=` 
+      let q=pro2.product_quality;
+      if(!q)
+      {
+
+         let apend2=` 
                   <div class="table_new4" >
                    <div style="width:10%; text-align: center;">0${i++}</div>
-                    <div  style="width: 80%;">${pro2.description} </div>
+                    <div  style="width: 80%;">${pro2.description}  </div>
                     <div style="width:10%; text-align: center;">${pro2.shelf_quentity}</div>
                     </div> `;
-        $('#bari_recipt').append(apend2);
+                    $('#bari_recipt').append(apend2);
+       
+      }else
+      {      
+          let qualities=JSON.parse(q)
+        let apend2=` 
+                  <div class="table_new4" >
+                   <div style="width:10%; text-align: center;">0${i++}</div>
+                    <div  style="width: 80%;">${pro2.description} ${qualities.size}
+                    <p style="font-size:1.6vw;font-weight:500">Color:${qualities.color},Modal:${qualities.modal},Thickness:${qualities.thickness}</p> </div>
+                    <div style="width:10%; text-align: center;">${pro2.shelf_quentity}</div>
+                    </div> `;
+                    $('#bari_recipt').append(apend2);
+      }
+        
     });
  }
 
 //this function append extra component to table
  function apendextra2(data)
  {  
-  
+
     let apend2=` 
-              <tr class="table_header2 border-0" style="margin-top:45mm; border:none"  >
-                 <td class="col-1 border-0" style=""></td>
-                 <td class="col-6 border-0" style="text-align:left; " ><h3 style="font-size:3vw;font-weight:900;text-decoration:underline">Components:</h3> </td>
-               </tr> `;
-            $('#bari_invoice_recipt:last-child').append(apend2);
+              <div class="table_invoice3" >
+                   <div style="width:10%; text-align: center;">01</div>
+                      <div  style="width:40%;"><strong style="font-size:3vw"> Component</strong> 
+                     </div>
+                   <div style="width:15%;"></div>
+                   <div style="width:10%;"></div>
+                   <div style="width:10%;"></div>
+                   <div style="width:15%; "></div>
+                </div> `;
+            $('#bari_invoice_recipt').append(apend2);
     
     $.each(data,function(key3,pro2)
     {
-       let apend2=` 
-                  <tr class="table_header2 border-0" style="margin-top:17mm; border:none"  >
-                     <td class="col-1 border-0" style=""></td>
-                     <td class="col-6 border-0" style="text-align:left; " ><h3 style="font-size:4vw;font-weight:900;text-decoration:underline">${pro2.description} </h3></td>
-                     <td class="col-1 c border-0">${pro2.size}</td>
-                     <td class="col-1 c border-0">${pro2.shelf_quentity}</td>
-                     <td class="col-1 c border-0">${pro2.price}</td>
-                     <td class="col-2 c border-0">${pro2.shelf_quentity * pro2.price}</td>
-                  </tr>  `;
-        $('#bari_invoice_recipt:last-child').append(apend2);
+       let q=pro2.product_quality;
+       if(!q)
+       {
+         let apend2=`  
+                  <div class="table_invoice3" >
+                   <div style="width:10%; text-align: center;">01</div>
+                      <div  style="width:40%;"><strong style="font-size:2vw"> ${pro2.description}</strong>
+                      </div>
+                   <div style="width:15%; text-align:center">${pro2.size}</div>
+                   <div style="width:10%; text-align:center">${pro2.shelf_quentity}</div>
+                   <div style="width:10%; text-align:center">${pro2.price}</div>
+                   <div style="width:15%; text-align:center">${pro2.shelf_quentity * pro2.price}-</div>
+                  </div>  `;
+             $('#bari_invoice_recipt').append(apend2);
+       }else
+       {
+         let qualities=JSON.parse(q)
+         let apend2=`  
+                  <div class="table_invoice3" >
+                   <div style="width:10%; text-align: center;">01</div>
+                      <div  style="width:40%;"><strong style="font-size:2vw"> ${pro2.description}${qualities.size}</strong>
+                       <p style="font-size:1.6vw;font-weight:500">Color:${qualities.color},Modal:${qualities.modal},Thickness:${qualities.thickness}</p></div>
+                   <div style="width:15%; text-align:center">${pro2.size}</div>
+                   <div style="width:10%; text-align:center">${pro2.shelf_quentity}</div>
+                   <div style="width:10%; text-align:center">${pro2.price}</div>
+                   <div style="width:15%; text-align:center">${pro2.shelf_quentity * pro2.price}-</div>
+                  </div>  `;
+             $('#bari_invoice_recipt').append(apend2);
+       }
+       
     });
  }
 

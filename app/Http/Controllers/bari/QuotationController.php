@@ -5,7 +5,8 @@ namespace App\Http\Controllers\bari;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
-use App\Models\BariProduct;
+use App\Models\Customer;
+use App\Models\Brand;
 use App\Http\Traits\BariRecieptTraits;
 class QuotationController extends Controller
 {
@@ -13,7 +14,10 @@ class QuotationController extends Controller
     public function quotationOrders()
     {
        $quotations=$this->paymentOrders('quotation');
-       return view('bari.reciept.quotation',compact('quotations'));
+       $customers=Customer::customers();
+       $categories=Category::categories();
+       $brands=Brand::brands();
+       return view('bari.reciept.quotation',compact('quotations','customers','brands','categories'));
     }
     
    

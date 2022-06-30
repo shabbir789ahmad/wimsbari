@@ -4,7 +4,9 @@ namespace App\Http\Controllers\bari;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Payment;
+use App\Models\Category;
+use App\Models\Customer;
+use App\Models\Brand;
 use App\Http\Traits\BariRecieptTraits;
 class InvoiceController extends Controller
 {
@@ -12,7 +14,10 @@ class InvoiceController extends Controller
     public function invoiceOrders()
     {
        $invoices=$this->paymentOrders('invoice');
-       return view('bari.reciept.invoice',compact('invoices'));
+       $customers=Customer::customers();
+       $categories=Category::categories();
+       $brands=Brand::brands();
+       return view('bari.reciept.invoice',compact('invoices','customers','brands','categories'));
     }
 
 

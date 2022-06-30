@@ -16,10 +16,14 @@
           <input type="hidden" id="admin_id" class="form-control" value="{{Auth::user()->id}}">
           <input type="hidden" class="form-control" id="reciept_type">
              <div class="col-md-6">
-
-               <label class="font-weight-bold">Customer Name</label>
-               <input type="text" id="customer_name" placeholder="Customer Name" class="form-control" value="">
-               <span class="text-danger">@error ('biller_name') {{$message}} @enderror</span>
+              <label class="font-weight-bold">Customer Name</label>
+              <div class="d-flex">
+                <input list="customers" name="customer_id" id="customer_id" class="form-control" placeholder="select Customer ">
+                   <datalist id="customers"  >
+                   </datalist>
+                 <button type="button" class="btn btn-primary btn-xs " id="customer_pos" data-id="2">Add</button>
+               
+              </div>
              </div>
              <div class="col-md-6">
                <label class="font-weight-bold">Paying By</label>

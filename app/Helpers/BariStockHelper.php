@@ -14,7 +14,7 @@ class BariStockHelper
     {
        return Product::
           join('product_brands','products.id','=','product_brands.product_id')
-          ->select('products.product_name','product_brands.product_id','products.sell_by','product_brands.id')
+          ->select('products.product_name','product_brands.product_id','products.sell_by','product_brands.id','products.product_qualities')
           ->where('products.id',$id)
           ->Branch()
           ->first();
@@ -44,17 +44,17 @@ class BariStockHelper
     }
 
 
-    function checkStock($id,$quentity,$bcart,$bccart)
+    function checkStock($id,$quentity)
     {
         // get componetn to check stock
     	$compontents= $this->components($id);
-      
+       
         foreach($compontents as $com)
         {
          $products= Product::
             join('product_brands','products.id','=','product_brands.product_id')
             ->join('product_stocks','product_brands.id','=','product_stocks.pbrand_id')
-            ->select('products.product_name','product_brands.product_id','products.sell_by','product_brands.id','product_stocks.stock')
+            ->select('product_brands.product_id','product_brands.id','product_stocks.stock')
             ->where('product_stocks.active','1')
             ->where('stock','>',0)
             ->where('products.id',$com['product_id'])
@@ -63,15 +63,16 @@ class BariStockHelper
             if( $products==null)
             {
               return $data='fail';
-            }else{
-           
-             if(($com['bri_quentity']* $quentity) > $products['stock'] && $products['id']==$com['product_id'])
-           
+            
+            }else
             {
-                return $data='fail';
+                
+              if(($com['bri_quentity']* $quentity) > $products['stock'] && $products['product_id']==$com['product_id'])
+               {
+                 return $data='fail';
                
+                }
             }
-         }
         }
     }
 

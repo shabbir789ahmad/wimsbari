@@ -81,7 +81,7 @@ class ProductController extends Controller {
      }
         
    // create json colunm for color modal and size filed
-    $product_qualities=['size'=>$request->product_size,'color'=>$request->product_color,'modal'=>$request->prodcut_modal];
+    $product_qualities=['size'=>$request->product_size,'color'=>$request->product_color,'modal'=>$request->prodcut_modal,'thickness'=>$request->prodcut_thickness];
       
     
 
@@ -138,7 +138,7 @@ class ProductController extends Controller {
    {
         
      $product = Product::leftjoin('product_brands','products.id','=','product_brands.product_id')
-         ->select('products.category_id','products.sub_category_id','products.product_name','product_brands.barcode','products.unit_id','product_brands.brand_id','product_brands.id','product_brands.product_id','products.sell_by','products.tax','product_brands.unit_barcode','products.pack_quentity','products.where_house_id')
+         ->select('products.category_id','products.sub_category_id','products.product_name','product_brands.barcode','products.unit_id','product_brands.brand_id','product_brands.id','product_brands.product_id','products.sell_by','products.tax','product_brands.unit_barcode','products.pack_quentity','products.where_house_id','products.product_qualities')
          ->where('product_brands.product_id',$id)
          ->first();
     
@@ -169,9 +169,11 @@ class ProductController extends Controller {
 
         for ($i=0; $i < count($request->name) ; $i++) 
         { 
+             $product_qualities=['size'=>$request->product_size,'color'=>$request->product_color,'modal'=>$request->prodcut_modal,'thickness'=>$request->prodcut_thickness];
             $temp =Product::findorfail($request->id[$i]);
             
             $temp->product_name = $request->name[$i];
+           $temp->product_qualities=json_encode($product_qualities);
             $temp->branch_id = Auth::user()->branch_id;
             $temp->save();
           

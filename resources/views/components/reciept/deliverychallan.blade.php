@@ -17,7 +17,7 @@
      <div class="challan_detail">
         <div class="details_challan col-2">
          <strong>Sr#:</strong>
-         <strong>___________</strong>
+         <strong id="sr_number2" style=" border-bottom:1px solid #000">___________</strong>
        </div>
         <div class="details_challan col-6">
          <strong>Follower Person:</strong>

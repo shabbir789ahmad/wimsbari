@@ -24,7 +24,7 @@ class CustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            'customer_group'=>'required',
+         'customer_group'=>'required',
           'customer_name'=>'required',
           'customer_address'=>'required',
           'customer_company'=>'required',

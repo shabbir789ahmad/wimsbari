@@ -22,12 +22,12 @@ class BariCartController extends Controller
         $id=$request->id;
         $bcart=$this->carts();
         $bccart=$this->bccart();
-      $data= $this->productHelper->checkStock($id,$request->quentity,$bcart,$bccart);
+      $data= $this->productHelper->checkStock($id,$request->quentity);
       
       if($data=='fail')
-        {
+     {
             return response()->json(['bcart'=>$this->carts(),'bccart'=>$this->bccart(),'success'=>'You Dont Have More Stock']);
-        }
+     }
        
        $products= BariProduct::findorfail($id);
       
@@ -56,6 +56,7 @@ class BariCartController extends Controller
                      "size" => $products['size'],
                      "quantity" => $request->quentity,
                      "price" =>$products['rate'] ,
+                     "category_id" =>$products['bri_category_id'] ,
                      "sub_total" =>$products['rate'] *$request->quentity ,
 
             ];

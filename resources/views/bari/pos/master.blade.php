@@ -79,6 +79,7 @@
    <script src="{{asset('js/bari/delete.js')}}"></script>
    <script src="{{asset('js/payment.js')}}"></script>
    <script src="{{asset('js/addexpense.js')}}"></script>
+   <script src="{{asset('js/customercrud.js')}}"></script>
   
    <script src="{{asset('js/bari/reciept.js')}}"></script>
    <script src="{{asset('js/bari/submit.js')}}"></script>

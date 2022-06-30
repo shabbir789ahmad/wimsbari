@@ -89,6 +89,7 @@ Route::middleware(['auth:admin', 'meta'])->group(function() {
 
    // add or show customer route
        Route::resource('customer', CustomerController::class);
+       Route::get('ajax/customer', [CustomerController::class, 'ajaxCustomer']);
    // return product by customer route
 
     Route::resource('return',ReturnProductController::class);
